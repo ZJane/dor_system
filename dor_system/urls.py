@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
+# 各个功能首页
+from dor.views import show_index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^index/', show_index),
+
+
 ]
