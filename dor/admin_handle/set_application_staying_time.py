@@ -4,6 +4,7 @@ from django.shortcuts import render
 from dor.models import StayingApplyTime
 
 def show_staying_time(request):
+
     return render(request, 'admin/extraStayTime.html')
 
 def set_staying_time(request):
