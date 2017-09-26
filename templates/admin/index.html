@@ -8,10 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../image/favicon.ico">
 
     <title>管理员主页 - 宿舍管理系统</title>
-    <link rel="icon" href={% static 'bootstrap/image/favicon.ico' %}>
+    <link rel="icon" href="{% static 'bootstrap/image/favicon.ico' %}">
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'bootstrap/css/admin.css' %}" rel="stylesheet" type="text/css">
 </head>
@@ -35,7 +34,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
 
-                <li><a href="info_admin.html"><span class="glyphicon glyphicon-user"></span> 李新老师</a></li>
+                <li><a href="info_admin.html"><span class="glyphicon glyphicon-user">{{ username }}老师</span> </a></li>
                 <li><a data-toggle="modal" data-target="#logout">注销</a></li>
             </ul>
         </div>
@@ -46,15 +45,15 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="index.html">宿舍退调申请处理<span class="sr-only">(current)</span></a></li>
-                <li><a href="repair.html">宿舍报修申请处理</a></li>
-                <li><a href="resource.html">宿舍资源申请处理</a></li>
-                <li><a href="meeting.html">研讨室申请处理</a></li>
-                <li><a href="activity.html">社区活动申请处理</a></li>
-                <li><a href="bookManager.html">共享书屋</a></li>
-                <li><a href="searchInfo.html">宿生信息检索</a></li>
-                <li><a href="checkIn.html">入宿处理</a></li>
-                <li><a href="extraStayTime.html">留校时间段设置</a></li>
+                <li class="active"><a href="/show_admin_index" >宿舍退调申请处理<span class="sr-only">(current)</span></a></li>
+                <li ><a href="/show_admin_repair_index">宿舍报修申请处理</a></li>
+                <li ><a href="/show_admin_resource_index">宿舍资源申请处理</a></li>
+                <li ><a href="/show_admin_meeting_index">研讨室申请处理</a></li>
+                <li ><a href="/show_admin_activity_index">社区活动申请处理</a></li>
+                <li ><a href="/show_admin_book_index">共享书屋</a></li>
+                <li ><a href="/show_admin_search_index">宿生信息检索</a></li>
+                <li ><a href="/show_admin_checkin_index">入宿处理</a></li>
+                <li ><a href="/show_admin_set_time_index">留校时间段设置</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -99,7 +98,6 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>申请人</th>
                                 <th>学号</th>
                                 <th>现住宿舍</th>
@@ -108,19 +106,20 @@
                             </tr>
                             </thead>
                             <tbody>
+                                {% for i in dor_change %}
                             <tr>
-                                <td>1</td>
-                                <td>何铭宜</td>
-                                <td>2014XXXXXX</td>
-                                <td>E666-6</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sname }}</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.old_room_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
                                     <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                            data-target="#changeDorm">
+                                            onclick="handle_change_dor(this)">
                                         查看及处理
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -153,28 +152,28 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>申请人</th>
                                 <th>学号</th>
+                                <th>申请人</th>
                                 <th>现住宿舍</th>
                                 <th>申请时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
+                            {% for i in stayonvacation %}
                             <tr>
-                                <td>1</td>
-                                <td>方栋</td>
-                                <td>2014XXXXXX</td>
-                                <td>D666-6</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.sname }}</td>
+                                <td>{{ i.dor_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
                                     <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                            data-target="#stay">
+                                            onclick="handle_staying_dor(this)">
                                         查看及处理
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -206,7 +205,6 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>申请人</th>
                                 <th>学号</th>
                                 <th>现住宿舍</th>
@@ -215,19 +213,19 @@
                             </tr>
                             </thead>
                             <tbody>
-
+                            {% for i in dor_checkout %}
                             <tr>
-                                <td>1</td>
-                                <td>何铭宜</td>
-                                <td>2014XXXXXX</td>
-                                <td>E666-6</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sname }}</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.room_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#checkOut">
+                                    <button class="btn btn-primary btn-xs" data-toggle="modal" onclick="handle_checkout_dor(this)">
                                         查看及处理
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -261,7 +259,6 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <td>#</td>
                                 <td>申请人</td>
                                 <td>学号</td>
                                 <td>现住宿舍</td>
@@ -271,21 +268,22 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for i in change_log %}
                             <tr>
-                                <td>1</td>
-                                <td>张敏华</td>
-                                <td>2014XXXXXX</td>
-                                <td>E214-3</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sname }}</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.old_room_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
-                                    <label class="label label-success">成功</label>
+                                    <label class="label label-primary">{{ i.app_status }}</label>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#changeLog">
+                                    <button class="btn btn-primary btn-xs" data-toggle="modal" onclick="show_change_log_detail(this)">
                                         查看
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -317,7 +315,6 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <td>#</td>
                                 <td>申请人</td>
                                 <th>学号</th>
                                 <th>现住宿舍</th>
@@ -327,21 +324,22 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for i in stayonvacation_log %}
                             <tr>
-                                <td>1</td>
-                                <td>王俊皓</td>
-                                <td>2014XXXXXX</td>
-                                <td>D666-6</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sname  }}</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.dor_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
-                                    <label class="label label-success">成功</label>
+                                    <label class="label label-primary">{{ i.apply_status }}</label>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#stayLog">
+                                    <button class="btn btn-primary btn-xs" data-toggle="modal" onclick="show_staying_log_detail(this)">
                                         查看
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -373,7 +371,6 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <td>#</td>
                                 <td>申请人</td>
                                 <td>学号</td>
                                 <td>现住宿舍</td>
@@ -383,23 +380,23 @@
                             </tr>
                             </thead>
                             <tbody>
-
+                            {% for i in checkout_log %}
                             <tr>
-                                <td>1</td>
-                                <td>张敏华</td>
-                                <td>2014XXXXXX</td>
-                                <td>E214-3</td>
-                                <td>2017-10-01 08:00:00</td>
+                                <td>{{ i.sname }}</td>
+                                <td>{{ i.sno }}</td>
+                                <td>{{ i.room_no }}</td>
+                                <td>{{ i.apply_time }}</td>
                                 <td>
-                                    <label class="label label-danger">失败</label>
+                                    <label class="label label-primary">{{ i.apply_status }}</label>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                            data-target="#checkOutLog">
+                                            onclick="show_checkout_log_detail(this)">
                                         查看
                                     </button>
                                 </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -434,7 +431,7 @@
 </div>
 
 <!--调宿处理modal-->
-<div class="modal fade" tabindex="-1" role="dialog" id="changeDorm" data-backdrop="static">
+<div class="modal fade" tabindex="-1" role="dialog" id="changeDorm">
     <div class="modal-dialog" style="width:auto; max-width:1000px">
         <div class="modal-content">
             <div class="modal-header">
@@ -448,42 +445,42 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" id="sno" class="form-control" readonly="readonly"  value={{ sno }}>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" name="sname" class="form-control" readonly="readonly" id="sname">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017年21年99日 -1时</label>
+                                <input type="text" id="apply_time" name="apply_time" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" name="college" class="form-control" readonly="readonly" id="college">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" name="major" class="form-control" readonly="readonly" id="major">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" name="room_no" class="form-control" readonly="readonly" id="old_room_no">
                             </div>
                         </div>
 
@@ -491,21 +488,21 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" name="stu_phone" class="form-control" readonly="readonly" id="stu_phone" }}>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" name="email" class="form-control" readonly="readonly" id="email">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">拟申请宿舍:</label>
-                                <label class="control-label">弘毅 XYZ</label>
+                               <input type="text" name="new_dor" class="form-control" readonly="readonly" id="new_room_no">
                             </div>
                         </div>
 
@@ -513,7 +510,7 @@
                             <div class="form-group">
                                 <label class="control-label">备注:</label>
                                 <p>
-                                    balabalabalabalabalabalabalabalabalabalabalabala
+                                    <input type="text" name="reason" class="form-control" readonly="readonly" id="reason">
                                 </p>
                             </div>
                         </div>
@@ -567,6 +564,7 @@
                                     <option value="101" id="agree_applyment">同意申请</option>
                                     <option value="102">不同意申请</option>
                                 </select>
+                                <input type="hidden" id="change_sel" name="agree_or_not">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -597,47 +595,48 @@
                 <h4 class="modal-title">处理退宿申请</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/dor/admin_handle/dormintory_handle/handle_cancel_dor_transcation/" method="post" id="checkout_dor">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" id="ssno" name="sno" class="form-control" readonly="readonly" >
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" id="ssname" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017年21年99日 -1时</label>
+                                <input type="text" id="sapply_time" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" id="scollege" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" id="smajor" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" id="sroom_no" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
@@ -645,23 +644,21 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" id="sstu_phone" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" id="semail" class="form-control" readonly="readonly">
                             </div>
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">备注:</label>
-                                <p>
-                                    balabalabalabalabalabalabalabalabalabalabalabala
-                                </p>
+                                <input type="textarea"  class="form-control" id="sreason" readonly="readonly">
                             </div>
                         </div>
 
@@ -673,9 +670,10 @@
                                 <label class="control-label">操作:</label>
                                 <select class="combobox">
                                     <option></option>
-                                    <option value="101">同意申请</option>
+                                    <option value="101" id="agree_checkout">同意申请</option>
                                     <option value="102">不同意申请</option>
                                 </select>
+                                <input type="hidden" id="checkout_sel" name="agree_or_not">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -686,11 +684,11 @@
                         </div>
                     </div>
                 </form>
-
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button class="btn btn-success">确定</button>
+                <button class="btn btn-success" onclick="agree_checkout_dor()">确定</button>
             </div>
         </div>
     </div>
@@ -706,69 +704,70 @@
                 <h4 class="modal-title">留校申请</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/dor/admin_handle/dormintory_handle/handle_live_on_vacation_transcation/" method="post" id="staying_on_vacation">
+                    {% csrf_token %}
                     <div class="row">
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_sno" name="sno">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_sname" name="sname">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_college" name="college">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_major" name="major">
                             </div>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">现住宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_room_no" name="room_no">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017-05-02 17:33:34</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_apply_time" name="apply_time">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_stu_phone" name="stu_phone">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_email" name="email">
                             </div>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">留校原因:</label>
-                                <label class="control-label">学术研究和实验</label>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_reason" name="reason">
                             </div>
                         </div>
 
@@ -777,9 +776,9 @@
                             <div class="form-group">
                                 <label class="control-label">留校时间:</label>
                                 <div class="checkbox">
-                                    <label>2017-07-04 至 2017-07-28 (暑假)</label>
+                                    <input type="text" class="form-control" readonly="readonly" id="stay_start_time" name="start_time">-
+                                    <input type="text" class="form-control" readonly="readonly" id="stay_end_time" name="end_time">
                                     <br>
-                                    <label>2017-07-29 至 2017-08-23 (暑假)</label>
                                 </div>
                             </div>
                         </div>
@@ -787,7 +786,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">备注:</label>
-                                <p>这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注</p>
+                                <input type="text" class="form-control" readonly="readonly" id="stay_detail" name="detail">
                             </div>
                         </div>
 
@@ -799,9 +798,10 @@
                                 <label class="control-label">操作:</label>
                                 <select class="combobox">
                                     <option></option>
-                                    <option value="101">同意申请</option>
+                                    <option value="101" id="agree">同意申请</option>
                                     <option value="102">不同意申请</option>
                                 </select>
+                                <input type="hidden" id="selection" name="agree_or_not">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -818,8 +818,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
-                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-primary" onclick="agree_staying()">确认</button>
             </div>
         </div>
     </div>
@@ -840,42 +839,42 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_sno" name="sno">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_sname" name="sname">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017年21年99日 -1时</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_apply_time" name="apply_time">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_college" name="college">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_major" name="major">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_old_room_no" name="old_room_no">
                             </div>
                         </div>
 
@@ -883,21 +882,21 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_stu_phone" name="stu_phone">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_email" name="email">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">拟申请宿舍:</label>
-                                <label class="control-label">弘毅 XYZ</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_new_room_no" name="new_room_no">
                             </div>
                         </div>
 
@@ -905,7 +904,7 @@
                             <div class="form-group">
                                 <label class="control-label">备注:</label>
                                 <p>
-                                    balabalabalabalabalabalabalabalabalabalabalabala
+                                    <input type="textarea" class="form-control" readonly="readonly" id="changelog_reason" name="old_reason">
                                 </p>
                             </div>
                         </div>
@@ -917,14 +916,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">经办人:</label>
-                                <label class="control-label">李新老师</label>
+                                <label class="control-label">{{ username }}</label>
                             </div>
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">状态:</label>
-                                <label class="label label-success">成功</label>
+                                <input type="text" class="form-control" readonly="readonly" id="changelog_apply_status">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -940,7 +939,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">确定</button>
+{#                <button type="button" class="btn btn-primary">确定</button>#}
             </div>
         </div>
     </div>
@@ -961,42 +960,42 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_sno" name="sno">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_sname" name="sname">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017年21年99日 -1时</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_apply_time" name="apply_time">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_college" name="college">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_major" name="major">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">原住宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_room_no" name="room_no">
                             </div>
                         </div>
 
@@ -1004,14 +1003,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_stu_phone" name="stu_phone">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_email" name="email">
                             </div>
                         </div>
 
@@ -1019,7 +1018,7 @@
                             <div class="form-group">
                                 <label class="control-label">备注:</label>
                                 <p>
-                                    balabalabalabalabalabalabalabalabalabalabalabala
+                                    <input type="textarea" class="form-control" readonly="readonly" id="checkoutlog_reason" name="reason">
                                 </p>
                             </div>
                         </div>
@@ -1031,21 +1030,21 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">经办人:</label>
-                                <label class="control-label">李新老师</label>
+                                <label class="control-label">{{ username }}</label>
                             </div>
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">状态:</label>
-                                <label class="label label-danger">失败</label>
+                                <input type="text" class="form-control" readonly="readonly" id="checkoutlog_apply_status">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <div class="form-group">
                                     <label class="control-label">备注:</label>
-                                    <p>这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注这是学生的申请备注</p>
+
                                 </div>
                             </div>
                         </div>
@@ -1054,7 +1053,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">确定</button>
+{#                <button type="button" class="btn btn-primary">确定</button>#}
             </div>
         </div>
     </div>
@@ -1076,63 +1075,63 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学号:</label>
-                                <label class="control-label">2014101027</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_sno" name="sno">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">姓名:</label>
-                                <label class="control-label">王俊皓</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_sname" name="sname">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">学院:</label>
-                                <label class="control-label">工学院</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_college" name="college">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">专业:</label>
-                                <label class="control-label">计算机科学与技术</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_major" name="major">
                             </div>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">现住宿舍:</label>
-                                <label class="control-label">弘毅 ABC</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_room_no" name="room_no">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">申请时间:</label>
-                                <label class="control-label">2017-05-02 17:33:34</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_apply_time" name="apply_time">
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">联系电话:</label>
-                                <label class="control-label">12312345678</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_stu_phone" name="stu_phone">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">邮箱:</label>
-                                <label class="control-label">14jhwang@stu.edu.cn</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_email" name="email">
                             </div>
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">留校原因:</label>
-                                <label class="control-label">学术研究和实验</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_reason" name="reason">
                             </div>
                         </div>
 
@@ -1141,9 +1140,8 @@
                             <div class="form-group">
                                 <label class="control-label">留校时间:</label>
                                 <div class="checkbox">
-                                    <label>2017-07-04 至 2017-07-28 (暑假)</label>
+                                    <input type="text" class="form-control" readonly="readonly" id="staylog_start_time" name="start_time">至<input type="text" class="form-control" readonly="readonly" id="staylog_end_time" name="end_time">
                                     <br>
-                                    <label>2017-07-29 至 2017-08-23 (暑假)</label>
                                 </div>
                             </div>
                         </div>
@@ -1154,14 +1152,15 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">经办人:</label>
-                                <label class="control-label">李新老师</label>
+                                <label class="control-label">{{ username }}</label>
                             </div>
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">状态:</label>
-                                <label class="label label-danger">失败</label>
+                                <label class="label label-primary">{{ i.apply_status }}</label>
+                                <input type="text" class="form-control" readonly="readonly" id="staylog_apply_status" name="apply_status">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1179,12 +1178,12 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
-                <button type="button" class="btn btn-primary">确认</button>
+{#                <button type="button" class="btn btn-primary">确认</button>#}
             </div>
         </div>
     </div>
 </div>
+
 
 <!--注销modal-->
 <div class="modal fade" tabindex="-1" role="dialog" id="logout" data-backdrop="static">
@@ -1200,7 +1199,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <a href="../index.html">
+                <a href="/index/">
                     <button type="button" class="btn btn-primary">确定</button>
                 </a>
             </div>
@@ -1210,17 +1209,209 @@
 
 <script type="text/javascript" src="{% static 'bootstrap/js/jquery-2.2.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'bootstrap/js/holder.min.js' %}"></script>
-
 <script>
+    function handle_change_dor(obj)
+    {
+        var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(1).text();
+        var aa=$(obj).text()
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_change_dor_applyments/",
+            type:"POST",
+            data:{stu_no:stu_no,opr:aa},
+            success:function(res){
+                console.log(res);
+                $('#sno').val(res.sno),
+                $('#sname').val(res.sname),
+                $('#college').val(res.college),
+                $('#major').val(res.major),
+                $('#stu_phone').val(res.stu_phone),
+                $('#email').val(res.email),
+                $('#old_room_no').val(res.old_dor_no),
+                $('#new_room_no').val(res.new_dor_no),
+                $('#apply_time').val(res.apply_time),
+                $('#reason').val(res.reason)
+            },
+
+        });
+        $('#changeDorm').modal('show')
+    }
+
+    function handle_checkout_dor(obj)
+    {
+        var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(1).text();
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_cancel_dor_applyments/",
+            type:"POST",
+            data:{stu_no:stu_no},
+            success:function(res){
+                console.log(res);
+                $('#ssno').val(res.sno),
+                $('#ssname').val(res.sname),
+                $('#scollege').val(res.college),
+                $('#smajor').val(res.major),
+                $('#sroom_no').val(res.old_dor_no),
+                $('#sstu_phone').val(res.stu_phone),
+                $('#semail').val(res.email),
+                $('#sapply_time').val(res.apply_time),
+                $('#sreason').val(res.reason)
+            },
+
+        });
+        $('#checkOut').modal('show')
+    }
+
+    function handle_staying_dor(obj)
+    {
+        var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(0).text();
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_live_on_vacation_applyments/",
+            type:"POST",
+            data:{stu_no:stu_no},
+            success:function(res){
+                console.log(res);
+                $('#stay_sno').val(res.sno),
+                $('#stay_sname').val(res.sname),
+                $('#stay_college').val(res.college),
+                $('#stay_major').val(res.major),
+                $('#stay_room_no').val(res.old_dor_no),
+                $('#stay_stu_phone').val(res.stu_phone),
+                $('#stay_email').val(res.email),
+                $('#stay_apply_time').val(res.apply_time),
+                $('#stay_reason').val(res.reason),
+                $('#stay_start_time').val(res.start_time),
+                $('#stay_end_time').val(res.end_time)
+
+            },
+
+        });
+        $('#stay').modal('show')
+    }
     function agree_change_dor()
     {
-        alert("hello");
         var option=document.getElementById("agree_applyment");
         if(option.selected)
         {
-            document.getElementById("change_dor").submit();
+             document.getElementById("change_sel").value="同意申请";
         }
+        else
+        {
+            document.getElementById("change_sel").value="不同意申请";
+        }
+        document.getElementById("change_dor").submit();
+    }
+
+    function agree_checkout_dor()
+    {
+        var option=document.getElementById("agree_checkout");
+        if(option.selected) {
+
+            document.getElementById("checkout_sel").value = "同意申请";
+        }
+        else
+        {
+            document.getElementById("checkout_sel").value="不同意申请";
+        }
+        document.getElementById("checkout_dor").submit();
+    }
+
+    function agree_staying(){
+        var option=document.getElementById("agree");
+        if(option.selected) {
+
+            document.getElementById("selection").value = "同意申请";
+        }
+        else
+        {
+            document.getElementById("selection").value="不同意申请";
+        }
+        document.getElementById("staying_on_vacation").submit();
+    }
+
+    function show_change_log_detail(obj)
+    {
+        var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(1).text();
+        var aa=$(obj).text();
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_change_dor_log/",
+            type:"POST",
+            data:{stu_no:stu_no,opr:aa},
+            success:function(res){
+                console.log(res);
+                $('#changelog_sno').val(res.sno),
+                $('#changelog_sname').val(res.sname),
+                $('#changelog_college').val(res.college),
+                $('#changelog_major').val(res.major),
+                $('#changelog_stu_phone').val(res.stu_phone),
+                $('#changelog_email').val(res.email),
+                $('#changelog_old_room_no').val(res.old_dor_no),
+                $('#changelog_new_room_no').val(res.new_dor_no),
+                $('#changelog_apply_time').val(res.apply_time),
+                $('#changelog_reason').val(res.reason),
+                $('#changelog_apply_status').val(res.apply_status)
+            },
+
+        });
+        $('#changeLog').modal('show')
+    }
+
+    function  show_checkout_log_detail(obj) {
+         var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(1).text();
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_cancel_dor_applyments/",
+            type:"POST",
+            data:{stu_no:stu_no},
+            success:function(res){
+                console.log(res);
+                $('#checkoutlog_sno').val(res.sno),
+                $('#checkoutlog_sname').val(res.sname),
+                $('#checkoutlog_college').val(res.college),
+                $('#checkoutlog_major').val(res.major),
+                $('#checkoutlog_room_no').val(res.old_dor_no),
+                $('#checkoutlog_stu_phone').val(res.stu_phone),
+                $('#checkoutlog_email').val(res.email),
+                $('#checkoutlog_apply_time').val(res.apply_time),
+                $('#checkoutlog_reason').val(res.reason),
+                $('#checkoutlog_apply_status').val(res.apply_status)
+            },
+
+        });
+        $('#checkOutLog').modal('show')
+
+    }
+
+    function show_staying_log_detail(obj)
+    {
+        var stu = $(obj).parent().parent().find('td');
+        var stu_no = stu.eq(1).text();
+        $.ajax({
+            url:"/dor/admin_handle/dormintory_handle/show_live_on_vacation_applyments/",
+            type:"POST",
+            data:{stu_no:stu_no},
+            success:function(res){
+                console.log(res);
+                $('#staylog_sno').val(res.sno),
+                $('#staylog_sname').val(res.sname),
+                $('#staylog_college').val(res.college),
+                $('#staylog_major').val(res.major),
+                $('#staylog_room_no').val(res.old_dor_no),
+                $('#staylog_stu_phone').val(res.stu_phone),
+                $('#staylog_email').val(res.email),
+                $('#staylog_apply_time').val(res.apply_time),
+                $('#staylog_reason').val(res.reason),
+                $('#staylog_start_time').val(res.start_time),
+                $('#staylog_end_time').val(res.end_time),
+                $('#staylog_apply_status').val(res.apply_status)
+
+            },
+
+        });
+        $('#stayLog').modal('show')
+
     }
 </script>
 

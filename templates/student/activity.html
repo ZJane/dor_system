@@ -8,12 +8,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../image/favicon.ico">
+
+     <script language="javascript" type="text/javascript">
+        function time() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+
+    document.getElementById("now1").value=date.getFullYear()+seperator1+month+seperator1+strDate+" "
+                                                +date.getHours() + seperator2 + date.getMinutes();
+
+}
+    </script>
+
 
     <title>社区活动申请 - 宿舍管理系统</title>
 
 
- <link rel="icon" href={% static 'bootstrap/image/favicon.ico' %}>
+	<link rel="icon" href="{% static 'bootstrap/image/favicon.ico' %}">
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'bootstrap/css/student.css' %}" rel="stylesheet" type="text/css">
 
@@ -30,7 +50,7 @@
 
 </head>
 
-<body>
+<body onload="time()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -46,8 +66,8 @@
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="info_student.html"><span class="glyphicon glyphicon-user"></span> 何铭宜 同学</a></li>
-                    <li><a href="#">注销</a></li>
+                    <li><a href="info_student.html"><span class="glyphicon glyphicon-user"></span>{{ sname }} 同学</a></li>
+                    <li><a href="/index/">注销</a></li>
                 </ul>
             </div>
         </div>
@@ -57,25 +77,25 @@
             <div class="col-sm-3 col-md-2 col-xs-3 sidebar" id="side">
                 <ul class="nav nav-sidebar">
                     <li>
-                        <a href="index.html">宿舍退调申请</a>
+                        <a href="/show_student_index">宿舍退调申请</a>
                     </li>
                     <li>
-                        <a href="repair.html">宿舍设施报修申请</a>
+                        <a href="/show_stu_repair_index">宿舍设施报修申请</a>
                     </li>
                     <li>
-                        <a href="payment.html">生活缴费</a>
+                        <a href="/show_stu_pay_index">生活缴费</a>
                     </li>
                     <li>
-                        <a href="resource.html">宿舍资源申请</a>
+                        <a href="/show_stu_resource_index">宿舍资源申请</a>
                     </li>
                     <li>
-                        <a href="meeting.html">研讨室申请</a>
+                        <a href="/show_stu_meeting_index">研讨室申请</a>
                     </li>
                     <li class="active">
-                        <a href="activity.html">社区活动申请</a>
+                        <a href="/show_stu_activity_index">社区活动申请</a>
                     </li>
                     <li>
-                        <a href="book.html">共享书屋<span class="sr-only">(current)</span></a>
+                        <a href="/show_stu_book_index">共享书屋<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
@@ -104,6 +124,7 @@
 
                 <div class="tab-content" style="margin-top: 10px">
                     <!--现在进行中 panel-->
+
                     <div class="tab-pane in active" id="activities">
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -118,32 +139,22 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for i in activity %}
                                 <tr>
-                                    <td>100001</td>
-                                    <td>社区十大歌手</td>
-                                    <td>知行书院学生会</td>
-                                    <td>2017-10-01 20:00 - 22:00</td>
-                                    <td>2017-09-25 23:59</td>
+                                    <td>{{ i.activity_no }}</td>
+                                    <td>{{ i.activity_name }}</td>
+                                    <td>{{ i.host_no }}</td>
+                                    <td>{{ i.activity_time }}</td>
+                                    <td>{{ i.last_apply_time }}</td>
                                     <td>
-                                        <button class="btn btn-success btn-xs" data-toggle="modal"
-                                                data-target="#func_activity">
+                                        <button  class="btn btn-success btn-xs" data-toggle="modal"
+                                               onclick="checkactivityinfo(this)">
                                             申请
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>100002</td>
-                                    <td>厨艺-寿司</td>
-                                    <td>G座导生</td>
-                                    <td>2017-10-22 20:00 - 22:00 </td>
-                                    <td>2017-10-20 23:59</td>
-                                    <td>
-                                        <button class="btn btn-success btn-xs" data-toggle="modal"
-                                                data-target="#func_activity">
-                                            申请
-                                        </button>
-                                    </td>
-                                </tr>
+                                {% endfor %}
+
                                 </tbody>
                             </table>
 
@@ -168,6 +179,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!--申请记录 panel-->
                     <div class="tab-pane" id="activityLog">
                         <div class="table-responsive">
@@ -183,83 +195,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for i in activity_log %}
                                 <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
+                                    <td>{{ i.actvity_no }}</td>
+                                    <td>{{ i.activity_name}}</td>
+                                    <td>{{ i.apply_time }}</td>
+                                    <td>{{ i.ad_no }}</td>
+                                    <td><span class="label label-primary">{{ i.apply_status }}</span></td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
+{#                                        <button type="button" class="btn btn-danger btn-xs">取消</button>#}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>10000</td>
-                                    <td>吃汉堡</td>
-                                    <td>2017-05-02 17:33:34</td>
-                                    <td>李新</td>
-                                    <td><span class="label label-danger">申请失败</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#detail_1">查看</button>
-                                        <button type="button" class="btn btn-danger btn-xs">取消</button>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
 
@@ -290,7 +238,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="func_activity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document" style="width:auto; max-width:1000px">
             <div class="modal-content">
@@ -299,84 +246,85 @@
                     <h4 class="modal-title">申请活动</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
-
+                    <form action="/dor/student_handle/activity_applyment/activity_applyment/" id="aaa" method="post">
+                        {% csrf_token %}
                         <div class="row">
-
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">学号:</label>
-                                    <label class="control-label">2014101027</label>
-                                </div>
+                                    <input id="sno" class="form-control" readonly="readonly" value={{ sno }}>
+                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">姓名:</label>
-                                    <label class="control-label">王俊皓</label>
+                                    <input id="sname" class="form-control" readonly="readonly" value={{ sname }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">学院:</label>
-                                    <label class="control-label">工学院</label>
+                                    <input id="college" class="form-control" readonly="readonly" value={{ college }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">专业:</label>
-                                    <label class="control-label">计算机科学与技术</label>
+                                    <input id="major" class="form-control" readonly="readonly" value={{ major }}>
                                 </div>
                             </div>
 
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">现住宿舍:</label>
-                                    <label class="control-label">弘毅 ABC</label>
+                                    <input id="dor_no" class="form-control" readonly="readonly" value={{ room_no }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">申请时间:</label>
-                                    <input type="text" class="form-control" readonly="readonly" value="2017年21年99日 -1时">
+                                    <input type="text" id="now1" name="apply_time" class="form-control">
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">联系电话:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="phone" class="form-control" value={{ stu_phone }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">邮箱:</label>
-                                    <input type="text" class="form-control" value="14jhwang@stu.edu.cn">
+                                    <input type="text" id="email" class="form-control"  readonly="readonly" value={{ email }}>
                                 </div>
                             </div>
                         </div>
-                    </form>
                     <hr/>
-                    <form>
+
                         <div class="row">
-
-
-
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label">活动编号:</label>
+                                    <input id="activity_no" name="aact_no" class="form-control" readonly="readonly" value={{ activity_no }}>
+                                </div>
+                            </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">活动名称:</label>
-                                    <label class="control-label">社区十大歌手</label>
+                                    <input id="activity_name" class="form-control" readonly="readonly" value={{ activity_name }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">活动举办方:</label>
-                                    <label class="control-label">知行书院学生会</label>
+                                    <input id="host_no" class="form-control" readonly="readonly" value={{ host_no }}>
                                 </div>
                             </div>
 
@@ -384,42 +332,36 @@
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">活动举办时间:</label>
-                                    <label class="control-label">2017-10-10 19:00-22:00</label>
+                                   <input id="activity_time" class="form-control" readonly="readonly" value={{ activity_time }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">人数限制:</label>
-                                    <label class="control-label">200</label>
+                                    <input id="activity_max_participate" class="form-control" readonly="readonly" value={{ activity_max_participate }}>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label class="control-label">截止申请时间:</label>
-                                    <label class="control-label">2017-10-05 23:59</label>
+                                    <input id="last_apply_time" class="form-control" readonly="readonly" >
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label">活动描述:</label>
-                                    <p class="control-label">这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述这是
-                                        活动描述这是活动描述这是活动描述这是活动描述这是活动描述
-                                        这是活动描述这是活动描述这是活动描述这是活动描述
-                                        这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述
-                                        这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述
-                                        这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述这是活动描述</p>
+                                    <input id="activity_description" class="form-control" readonly="readonly" >
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">确认申请</button>
+                    <button type="button" class="btn btn-primary" onclick="apply_activity()">确认申请</button>
                 </div>
             </div>
         </div>
@@ -467,13 +409,38 @@
     <!-- Bootstrap core JavaScript
       ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../js/jquery-2.2.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../js/holder.min.js"></script>
+ 
     <script type="text/javascript" src="{% static 'bootstrap/js/jquery-2.2.1.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'bootstrap/js/holder.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'bootstrap/js/holder.min.js' %}"></script>
 </body>
+<script>
+    function apply_activity(){
+        document.getElementById("aaa").submit();
+    }
+    function checkactivityinfo(obj) {
+        var act = $(obj).parent().parent().find('td');
+        var act_no = act.eq(0).text();
+        $.ajax({
+            url:"/dor/student_handle/activity_applyment/show_activity_info/",
+            type:"POST",
+            data:{act_no:act_no},
+            success:function(res){
+                $('#activity_no').val(res.activity_no),
+                $('#activity_name').val(res.activity_name),
+                $('#host_no').val(res.host_no),
+                $('#activity_time').val(res.activity_time),
+                $('#activity_description').val(res.activity_description),
+                $('#activity_max_participate').val(res.activity_max_participate),
+                $('#last_apply_time').val(res.last_apply_time)
+            },
+
+        });
+        $('#func_activity').modal('show')
+
+    }
+
+
+</script>
 
 </html>
