@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls.static import static
+
 # 各个功能首页
 from dor.views import show_index
 urlpatterns = [
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'^index/', show_index),
 
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
