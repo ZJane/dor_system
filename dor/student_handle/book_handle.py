@@ -20,7 +20,7 @@ def share_books(request):
 
     userno = request.session.get('userno',None)
 
-    username = request.session('username',None)
+    username = request.session.get('username',None)
 
     if request.method=="POST":
 
@@ -76,7 +76,7 @@ def find_books(request):
     contributor=request.POST.get("contributor",None)
     userno = request.session.get('userno', None)
 
-    username = request.session('username', None)
+    username = request.session.get('username', None)
     book_list=DorBookInf.objects.filter(book_name=book_name)
     #get到那个检索值
     if book_list:
@@ -115,7 +115,7 @@ def look_books(request):
 def return_books(request,get_id):
     if request.method=="POST":
         userno = request.session.get('userno', None)
-        username = request.session('username', None)
+        username = request.session.get('username', None)
         book_name = request.POST.get("return", None)
         change=DorBookInf.objects.filter(book_name=book_name,book_id=get_id).update(book_borrow="0",
                                                                                          book_borrow_state="0",
