@@ -56,7 +56,6 @@ from dor.student_handle.resource_applyment import resource
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/',show_index),
-    url(r'^admin/',admin.site.urls),
     url(r'^show_admin_index',show_admin_index),
     url(r'^show_student_index',show_student_index),
     url(r'^show_admin_set_time_index',show_set_time_index),
@@ -124,8 +123,8 @@ urlpatterns = [
 
     # 留校时间设置和修改
 
-    #url(r'^dor/admin_handle/set_staying_time_show_staying_time', show_staying_time),
-    url(r'^dor/admin_handle/set_staying_time_set_application_staying_time', set_staying_time),
+    #url(r'^dor/admin_handle/set_staying_time_show_staying_time', show_staying_index),
+    url(r'^dor/admin_handle/set_staying_time/set_application_staying_time', set_staying_time),
 
 
 
@@ -170,4 +169,4 @@ urlpatterns = [
     url(r'^books_Manager/insert_book', insert_book),
 
 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
